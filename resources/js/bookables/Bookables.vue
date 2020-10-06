@@ -5,13 +5,13 @@
         <div v-else>
             <div class="row mb-4" v-for="row in rows" :key="'row'+row" >
                 {{row}}
-                <div class="col" 
+                <div class="col d-flex align-items-stretch" 
                     v-for="(bookable, column) in bookablesInRow(row)" 
                     :key="'row' + row + column">
                     <bookable-list-item 
                         :key="'listitem' + row + column"
                         :item-title="bookable.title"
-                        :item-content="bookable.content"
+                        :item-content="bookable.description"
                         :price="bookable.price"
                     ></bookable-list-item>
                 </div>
@@ -57,51 +57,12 @@ export default {
         console.log(this.bookable2)
 
         this.loading = true
-        setTimeout(() => {
-            this.bookables = [
-                {
-                    price: 1500,
-                    title: "Cheap villaaaaa",
-                    content: "A very cheap villa"
-                },
-                {
-                    price: 12323,
-                    title: "Cheap villa 2",
-                    content: 'A very chea pvilla 2'
-                },
-                {
-                    price: 490,
-                    title: 'Villa 3',
-                    content: 'asdasdasdasdsad'
-                },
-                {
-                    price: 490,
-                    title: 'Villa 3',
-                    content: 'asdasdasdasdsad'
-                },
-                {
-                    price: 490,
-                    title: 'Villa 3',
-                    content: 'asdasdasdasdsad'
-                },
-                {
-                    price: 490,
-                    title: 'Villa 3',
-                    content: 'asdasdasdasdsad'
-                },
-                {
-                    price: 490,
-                    title: 'Villa 3',
-                    content: 'asdasdasdasdsad'
-                },
-                {
-                    price: 490,
-                    title: 'Villa 3',
-                    content: 'asdasdasdasdsad'
-                },
-            ]
-            this.loading = false
-        }, 2000)
+
+        const request = axios.get('/api/bookables')
+            .then(res => {
+                this.bookables = res.data
+                this.loading = false
+            })
     }
 }
 </script>

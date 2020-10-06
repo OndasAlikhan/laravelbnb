@@ -1994,42 +1994,10 @@ __webpack_require__.r(__webpack_exports__);
     console.log(this.bookable1);
     console.log(this.bookable2);
     this.loading = true;
-    setTimeout(function () {
-      _this.bookables = [{
-        price: 1500,
-        title: "Cheap villaaaaa",
-        content: "A very cheap villa"
-      }, {
-        price: 12323,
-        title: "Cheap villa 2",
-        content: 'A very chea pvilla 2'
-      }, {
-        price: 490,
-        title: 'Villa 3',
-        content: 'asdasdasdasdsad'
-      }, {
-        price: 490,
-        title: 'Villa 3',
-        content: 'asdasdasdasdsad'
-      }, {
-        price: 490,
-        title: 'Villa 3',
-        content: 'asdasdasdasdsad'
-      }, {
-        price: 490,
-        title: 'Villa 3',
-        content: 'asdasdasdasdsad'
-      }, {
-        price: 490,
-        title: 'Villa 3',
-        content: 'asdasdasdasdsad'
-      }, {
-        price: 490,
-        title: 'Villa 3',
-        content: 'asdasdasdasdsad'
-      }];
+    var request = axios.get('/api/bookables').then(function (res) {
+      _this.bookables = res.data;
       _this.loading = false;
-    }, 2000);
+    });
   }
 });
 
@@ -37670,12 +37638,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
+  return _c("div", { staticClass: "card w-100" }, [
     _c("div", { staticClass: "card-body" }, [
       _c("h5", { staticClass: "card-tite" }, [_vm._v(_vm._s(_vm.itemTitle))]),
       _vm._v(" "),
       _c("p", { staticClass: "card-text" }, [
-        _vm._v(_vm._s(_vm.itemTitle) + " " + _vm._s(_vm.price))
+        _vm._v(_vm._s(_vm.itemContent) + " " + _vm._s(_vm.price))
       ])
     ])
   ])
@@ -37717,13 +37685,16 @@ var render = function() {
                 _vm._l(_vm.bookablesInRow(row), function(bookable, column) {
                   return _c(
                     "div",
-                    { key: "row" + row + column, staticClass: "col" },
+                    {
+                      key: "row" + row + column,
+                      staticClass: "col d-flex align-items-stretch"
+                    },
                     [
                       _c("bookable-list-item", {
                         key: "listitem" + row + column,
                         attrs: {
                           "item-title": bookable.title,
-                          "item-content": bookable.content,
+                          "item-content": bookable.description,
                           price: bookable.price
                         }
                       })
