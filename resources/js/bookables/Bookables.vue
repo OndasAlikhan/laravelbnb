@@ -10,9 +10,7 @@
                     :key="'row' + row + column">
                     <bookable-list-item 
                         :key="'listitem' + row + column"
-                        :item-title="bookable.title"
-                        :item-content="bookable.description"
-                        :price="bookable.price"
+                        :item="bookable"
                     ></bookable-list-item>
                 </div>
                 <div class="col" v-for="p in placeholdersInRow(row)" :key="'p'+row+p"></div>
@@ -60,7 +58,7 @@ export default {
 
         const request = axios.get('/api/bookables')
             .then(res => {
-                this.bookables = res.data
+                this.bookables = res.data.data
                 this.loading = false
             })
     }
