@@ -14,8 +14,17 @@ class CreateReviewsTable extends Migration
     public function up()
     {
         Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->timestamps();
+            
+            $table->unsignedTinyInteger('rating');
+            $table->text('content');
+
+            $table->unsignedBigInteger('bookable_id')->index();
+            $table->foreign('bookable_id')->references('id')->on('bookables');
+
+            $table->unsignedBigInteger('booking_id')->index()->nullable();
+            $table->foreign('booking_id')->references('id')->on('bookings');
         });
     }
 

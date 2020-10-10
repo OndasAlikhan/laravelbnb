@@ -49,12 +49,15 @@ export default {
             errors: null
         }
     },
+    props: {
+        bookableId: String
+    },
     methods: {
         check() {
             this.loading = true;
             this.errors = null;
 
-            axios.get(`/api/bookables/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`)
+            axios.get(`/api/bookables/${this.bookableId}/availability?from=${this.from}&to=${this.to}`)
                 .then(res => {
                     this.status = res.status
                 })
