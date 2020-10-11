@@ -18,7 +18,7 @@
                     @keyup.enter="check"
                     :class="[{'is-invalid': this.errorFor('from')}]"
                 >
-                <div class="invalid-feedback" v-for="(error, index) in this.errorFor('from')" :key="'from' + index">{{ error }}</div>
+                <v-errors :errors="errorFor('from')"></v-errors>
             </div>
             <div class="form-group col-md-6">
                 <label for="to">To</label>
@@ -31,7 +31,7 @@
                     @keyup.enter="check"
                     :class="[{'is-invalid': this.errorFor('to')}]"
                 >
-                <div class="invalid-feedback" v-for="(error, index) in this.errorFor('to')" :key="'to' + index">{{ error }}</div>
+                <v-errors :errors="errorFor('to')"></v-errors>
             </div>
         </div>
         <button class="btn btn-secondary btn-block" type="button" @click="check" :disabled="loading">Check</button>
@@ -39,18 +39,22 @@
 </template>
 
 <script>
+import { is422 } from '../shared/utils/response'
+import validationErrors from './../shared/mixins/validationErrors'
+
 export default {
+    mixins: [validationErrors],
     data() {
         return {
             from: null,
             to: null,
             loading: false,
             status: null,
-            errors: null
+            // errors: null
         }
     },
     props: {
-        bookableId: String
+        bookableId: [String, Number]
     },
     methods: {
         check() {
@@ -62,16 +66,16 @@ export default {
                     this.status = res.status
                 })
                 .catch(err => {
-                    if (422 === err.response.status){ 
+                    if (is422(err)){ 
                         this.errors = err.response.data.errors
                     }
                     this.status = err.response.status
                 })
                 .finally(() => this.loading = false)
         },
-        errorFor(field) {
-            return this.hasErrors && this.errors[field] ? this.errors[field] : null
-        }
+        // errorFor(field) {
+        //     return this.hasErrors && this.errors[field] ? this.errors[field] : null
+        // }
     },
     computed: {
         hasErrors() {
